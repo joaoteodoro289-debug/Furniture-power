@@ -16,7 +16,7 @@ archivesBaseName = 'furniture-power-1.12.2'
 sourceCompatibility = targetCompatibility = '1.8'
 
 minecraft {
-    mappings = 'snapshot_20171003'
+mappings = 'stable_39'
 }
 
 repositories {
