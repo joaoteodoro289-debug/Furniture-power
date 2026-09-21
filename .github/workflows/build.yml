@@ -24,10 +24,10 @@ jobs:
           set -e
           mkdir -p forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860
 
-          curl -fL "https://mirror.sjtu.edu.cn/bmclapi/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev3.jar" \
+          curl -fL "https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/..." \
             -o forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev.jar
 
-          curl -fL "https://mirror.sjtu.edu.cn/bmclapi/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860.pom" \
+          curl -fL "https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/..." \
             -o forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860.pom
 
       - name: Configure repositories
