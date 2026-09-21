@@ -1,0 +1,1 @@
+{"type":"minecraft:crafting_shaped","pattern":["IRI","IFI","ICI"],"key":{"I":{"item":"minecraft:iron_ingot"},"R":{"item":"minecraft:redstone"},"F":{"item":"minecraft:furnace"},"C":{"item":"minecraft:coal"}},"result":{"item":"furniturepower:electric_generator","count":1}}

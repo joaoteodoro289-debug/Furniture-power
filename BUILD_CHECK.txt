@@ -1,0 +1,9 @@
+Source review status
+====================
+- Project structure checked: PASS
+- CFM 6.3.2 required classes checked: PASS
+- Java 8 source compatibility syntax check against a local 1.12.2 API stub: PASS
+- ForgeGradle build/reobfuscation: NOT RUN (ForgeGradle 2.3 and Minecraft 1.12.2 toolchain are not installed in the current environment)
+- In-game launch/test: NOT RUN
+
+Therefore this package is a release-candidate SOURCE package, not a claimed final tested JAR.
