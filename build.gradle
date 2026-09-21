@@ -3,10 +3,10 @@ buildscript {
         maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
     }
-    dependencies { classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT' }
+    dependencies { classpath 'net.minecraftforge.gradle:ForgeGradle:3.0.194' }
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 
 version = '2.1.0'
 group = 'com.example.furniturepower'
