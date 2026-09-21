@@ -1,72 +1,66 @@
 name: Build Forge 1.12.2 mod
 
 on:
-workflow_dispatch:
-push:
-branches: [ main, master ]
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
 
 jobs:
-build:
-runs-on: ubuntu-22.04
+  build:
+    runs-on: ubuntu-22.04
 
-steps:
-  - name: Checkout
-    uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  - name: Java 8
-    uses: actions/setup-java@v4
-    with:
-      distribution: temurin
-      java-version: '8'
+      - name: Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
 
-  - name: Prepare Forge userdev
-    run: |
-      set -e
+      - name: Prepare Forge userdev
+        run: |
+          set -e
+          mkdir -p forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860
 
-      mkdir -p forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860
+          curl -fL "https://mirror.sjtu.edu.cn/bmclapi/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev3.jar" \
+            -o forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev.jar
 
-      curl -fL \
-        "https://mirror.sjtu.edu.cn/bmclapi/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev3.jar" \
-        -o forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev.jar
+          curl -fL "https://mirror.sjtu.edu.cn/bmclapi/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860.pom" \
+            -o forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860.pom
 
-      curl -fL \
-        "https://mirror.sjtu.edu.cn/bmclapi/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860.pom" \
-        -o forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860.pom
-
-      cat > /tmp/forge-init.gradle <<'GRADLE'
-      allprojects {
-          repositories {
-              maven { url uri("$rootDir/forge-maven") }
-              mavenCentral()
-              maven { url 'https://maven.minecraftforge.net' }
+      - name: Configure repositories
+        run: |
+          cat > /tmp/forge-init.gradle <<'GRADLE'
+          allprojects {
+              repositories {
+                  maven { url uri("$rootDir/forge-maven") }
+                  maven { url 'https://maven.minecraftforge.net' }
+                  mavenCentral()
+              }
           }
-      }
-      GRADLE
+          GRADLE
 
-  - name: Download Gradle 4.10.3
-    run: |
-      set -e
-      curl -fL \
-        "https://services.gradle.org/distributions/gradle-4.10.3-bin.zip" \
-        -o /tmp/gradle.zip
+      - name: Install Gradle 4.10.3
+        run: |
+          set -e
+          curl -fL "https://services.gradle.org/distributions/gradle-4.10.3-bin.zip" -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /tmp
+          /tmp/gradle-4.10.3/bin/gradle --version
 
-      unzip -q /tmp/gradle.zip -d /tmp
+      - name: Build
+        run: |
+          set -e
+          /tmp/gradle-4.10.3/bin/gradle \
+            --no-daemon \
+            --refresh-dependencies \
+            -I /tmp/forge-init.gradle \
+            clean build
 
-      /tmp/gradle-4.10.3/bin/gradle --version
-
-  - name: Build
-    run: |
-      set -e
-
-      /tmp/gradle-4.10.3/bin/gradle \
-        --no-daemon \
-        --refresh-dependencies \
-        -I /tmp/forge-init.gradle \
-        clean build
-
-  - name: Upload JAR
-    uses: actions/upload-artifact@v4
-    with:
-      name: furniture-power-1.12.2
-      path: build/libs/*.jar
-      if-no-files-found: error
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: furniture-power-1.12.2
+          path: build/libs/*.jar
+          if-no-files-found: error
