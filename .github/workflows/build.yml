@@ -24,10 +24,10 @@ jobs:
           set -e
           mkdir -p forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860
 
-          curl -fL "https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/..." \
+          curl -fL "https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev.jar" \
             -o forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-userdev.jar
 
-          curl -fL "https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/..." \
+          curl -fL "https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860.pom" \
             -o forge-maven/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860.pom
 
       - name: Configure repositories
@@ -52,15 +52,4 @@ jobs:
       - name: Build
         run: |
           set -e
-          /tmp/gradle-4.10.3/bin/gradle \
-            --no-daemon \
-            --refresh-dependencies \
-            -I /tmp/forge-init.gradle \
-            clean build
-
-      - name: Upload JAR
-        uses: actions/upload-artifact@v4
-        with:
-          name: furniture-power-1.12.2
-          path: build/libs/*.jar
-          if-no-files-found: error
+          /tmp/gradle-4.10.3/bin/grad
